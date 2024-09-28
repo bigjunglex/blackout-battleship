@@ -47,6 +47,16 @@ describe('Gameboard unit test', () => {
         expect(board.grid['99'].length).toBe(5)
     })
 
+    test('placing and hiting ship and adjastent squares ', () => {
+        board.place(1, [1])
+        board.place(3, [7, 8, 9])
+        board.receiveAttack(1)
+        board.receiveAttack(8)
 
+        expect(board.grid['1']).toBe(2)
+        expect(board.grid['8']).toBe(2)
+        expect(board.grid['7'].hits).toBe(1)
+
+    })
 
 })

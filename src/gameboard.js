@@ -1,10 +1,11 @@
 import { Ship } from "./ship";
 
+// board codes {0: empty, 1: empty hit, 2: ship hit} 
 
 class Gameboard {
     constructor(){
         this.grid = this.reset();
-        this.ships = []
+        this.ships = [];
     }
 
     reset(){
@@ -25,8 +26,15 @@ class Gameboard {
     }
 
     receiveAttack(target) {
-
+        const cell = this.grid[target]
+        if (cell instanceof Ship) {
+            cell.hit()
+            this.grid[target] = 2
+        } else {
+            this.grid[target] = 1
+        }
     }
+
 }
 
 export { Gameboard }
