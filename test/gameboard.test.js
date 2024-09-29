@@ -1,9 +1,10 @@
 import { test, expect } from "@jest/globals"
 import { Gameboard } from "../src/app/gameboard"
+import { Player } from "../src/app/player";
 
 describe('Gameboard unit test', () => {
     let board;
-    let ship;
+    let player;
 
     beforeEach(() => board = new Gameboard())
 
@@ -59,4 +60,10 @@ describe('Gameboard unit test', () => {
         expect(board.status).toBe(true)
     })
 
+    test('basic player', () => {
+        player = new Player('real')
+
+        expect(player.board.status).toBe(true)
+        expect(player.type).toBe('real')
+    })
 })

@@ -1,6 +1,6 @@
-import { Ship } from "./ship";
+import { Ship } from "./ship.js";
 
-// board codes {0: empty, 1: empty hit, 2: ship hit} 
+// board codes {0: empty , 1: empty hit 💧, 2: ship hit ⚓} 
 
 class Gameboard {
     constructor(){
@@ -12,6 +12,7 @@ class Gameboard {
         return this.shipSunk < 5 
     }
     
+    // TODO: mb dobavit' save layota dlya korablei v reset 👺 ⚓
     reset(){
         const board = {};
         
@@ -38,8 +39,6 @@ class Gameboard {
             this.grid[target] = 1
         }
     }
-
-
 }
 
 export { Gameboard }

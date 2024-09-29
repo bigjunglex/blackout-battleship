@@ -10,10 +10,45 @@ body {
 	position: relative;
 }
 
+header {
+    background-color: red;
+    text-align: center;
+    font-size: 2em;
+}
+
 #wrapper {
     background-color: #222222;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	image-rendering: pixelated;
+}
+
+.game-container {
+    height: 100%;
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    padding-top: 2em;
+}
+
+.starter_menu {
+    display: none;
+}
+
+#green {
+    background-color: green;
+}
+
+#red {
+    background-color: violet;
+}
+
+.board {
+    width: 80%;
+    height: 40%;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); 
+    grid-template-rows: repeat(10, 1fr);  
 }
