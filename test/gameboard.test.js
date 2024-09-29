@@ -1,5 +1,5 @@
 import { test, expect } from "@jest/globals"
-import { Gameboard } from "../src/gameboard"
+import { Gameboard } from "../src/app/gameboard"
 
 describe('Gameboard unit test', () => {
     let board;
@@ -56,7 +56,7 @@ describe('Gameboard unit test', () => {
         expect(board.grid['1']).toBe(2)
         expect(board.grid['8']).toBe(2)
         expect(board.grid['7'].hits).toBe(1)
-
+        expect(board.status).toBe(true)
     })
 
 })

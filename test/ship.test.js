@@ -1,5 +1,5 @@
 import { test, expect } from "@jest/globals"
-import { Ship } from "../src/ship"
+import { Ship } from "../src/app/ship"
 
 describe('Ship unit test', () => {
     let ship;

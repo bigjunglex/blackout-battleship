@@ -5,9 +5,13 @@ import { Ship } from "./ship";
 class Gameboard {
     constructor(){
         this.grid = this.reset();
-        this.ships = [];
+        this.shipSunk = 0;
     }
-
+    
+    get status() {
+        return this.shipSunk < 5 
+    }
+    
     reset(){
         const board = {};
         
@@ -34,6 +38,7 @@ class Gameboard {
             this.grid[target] = 1
         }
     }
+
 
 }
 
