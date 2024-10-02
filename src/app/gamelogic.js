@@ -13,9 +13,10 @@ class Ship {
 
 /**
  * board codes = {
- * 0 : 'unknown cell'
  * 1 : 'empty hit cell'
- * 2 : 'shipy
+ * 0 : 'unknown cell'
+ * 2 : 'ship not hit'
+ * 3 : 'ship hit'
  * }
  */
 
@@ -62,12 +63,12 @@ class Player {
     constructor(type){
         this.type = type
         this.board = new Gameboard();
-        this.turn = 0;
+        this.turn = true;
     }
 
     swap() {
-        this.turn = this.turn === 1 ? 0 : 1
-        return this.turn
+        this.turn = this.turn ? false : true
+        console.log(`turn changed to ${this.turn}`)
     }
 }
 

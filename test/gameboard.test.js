@@ -1,6 +1,6 @@
 import { test, expect } from "@jest/globals"
-import { Gameboard } from "../src/app/gamelogic"
-import { Player } from "../src/app/player";
+import { Gameboard, Player} from "../src/app/gamelogic.js"
+
 
 describe('Gameboard unit test', () => {
     let board;
