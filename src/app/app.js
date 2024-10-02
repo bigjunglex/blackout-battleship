@@ -1,9 +1,9 @@
 import { GameRender } from "./render.js";
-import { Player } from "./gamelogic.js";
+import { Player, State } from "./gamelogic.js";
 import { BoardController } from "./controllers.js";
 
-const x = new Player('real')
-const y = new Player('not')
+const x = new Player('real', true)
+const y = new Player('not', false)
 
 const green = new GameRender(x.board.grid, document.getElementById('green'))
 const red = new GameRender(y.board.grid, document.getElementById('red'))
@@ -25,4 +25,6 @@ ships.forEach(ship => {
 green.renderBoard()
 red.renderBoard()
 
-const controller1 = new BoardController(x, green)
+const game = new State([x, y])
+const controller1 = new BoardController(x, green, game)
+const controller2 = new BoardController(y, red, game)

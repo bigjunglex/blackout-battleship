@@ -18,6 +18,8 @@ class Ship {
  * 2 : 'ship not hit'
  * 3 : 'ship hit'
  * }
+ * status, reset, place(number, [...numbers])
+ * receiveAttack(number)
  */
 
 class Gameboard {
@@ -58,21 +60,38 @@ class Gameboard {
     }
 }
 
+/**
+ * constructor(turn = boolean)
+ * type: todo for npc / player start
+ * */ 
 
 class Player {
-    constructor(type){
+    constructor(type, turn){
         this.type = type
         this.board = new Gameboard();
-        this.turn = true;
+        this.turn = turn;
     }
 
     swap() {
         this.turn = this.turn ? false : true
-        console.log(`turn changed to ${this.turn}`)
+        console.log(`turn changed to ${this.turn} on ${this.type}`)
+    }
+}
+
+/**
+ * constructor - array of 2 players
+ * */ 
+
+class State {
+    constructor(players){
+        this.players = players
+    }
+
+    updateTurns(){
+        this.players.forEach(player => player.swap());
     }
 }
 
 
 
-
-export { Gameboard , Player, Ship}
+export { Gameboard , Player, Ship, State}

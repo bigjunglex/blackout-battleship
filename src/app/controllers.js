@@ -1,11 +1,11 @@
 import { Ship } from "./gamelogic.js";
 
 class BoardController {
-    constructor(player, view){
+    constructor(player, view, state){
         this.player = player;
         this.view = view;
+        this.state = state
         this.board = this.player.board.grid
-        this.status = this.player.turn
         
         this.addListeners()
     }
@@ -20,7 +20,7 @@ class BoardController {
     clickHandler(index){
         const cell = this.board[index]
         console.log('clicked', index , cell)
-        if (this.status) {
+        if (this.player.turn) {
             this.clickResolve(cell, index)
             this.sendUpdates()
         }
@@ -29,7 +29,7 @@ class BoardController {
     sendUpdates(){
         this.view.updateBoard()
         this.addListeners()
-        this.player.swap()
+        this.state.updateTurns()
         this.status = this.player.turn
     }
 
@@ -38,10 +38,10 @@ class BoardController {
             cell.hit()
             this.board[i] = 2
         }
-        if (cell === 0) this.board = 1
-        if (cell > 0) null
+        if (cell === 0) this.board[i] = 1
     }
 }
+
 
 
 export { BoardController }
