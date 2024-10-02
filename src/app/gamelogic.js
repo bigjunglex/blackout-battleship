@@ -1,6 +1,23 @@
-import { Ship } from "./ship.js";
+class Ship {
+    constructor(length){
+        this.length = length;
+        this.hits = 0;
+        this.status = true
+    }
 
-// board codes {0: empty , 1: empty hit 💧, 2: ship hit ⚓} 
+    hit(){
+        if (this.hits < this.length) ++this.hits
+        if (this.hits === this.length) this.status = false
+    }
+}
+
+/**
+ * board codes = {
+ * 0 : 'unknown cell'
+ * 1 : 'empty hit cell'
+ * 2 : 'shipy
+ * }
+ */
 
 class Gameboard {
     constructor(){
@@ -15,7 +32,6 @@ class Gameboard {
     // TODO: mb dobavit' save layota dlya korablei v reset 👺 ⚓
     reset(){
         const board = {};
-        
         for (let i = 0; i < 100; i++){
             board[i] = 0;
         }
@@ -41,4 +57,21 @@ class Gameboard {
     }
 }
 
-export { Gameboard }
+
+class Player {
+    constructor(type){
+        this.type = type
+        this.board = new Gameboard();
+        this.turn = 0;
+    }
+
+    swap() {
+        this.turn = this.turn === 1 ? 0 : 1
+        return this.turn
+    }
+}
+
+
+
+
+export { Gameboard , Player, Ship}

@@ -1,5 +1,5 @@
 import { test, expect } from "@jest/globals"
-import { Gameboard } from "../src/app/gameboard"
+import { Gameboard } from "../src/app/gamelogic"
 import { Player } from "../src/app/player";
 
 describe('Gameboard unit test', () => {

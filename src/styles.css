@@ -27,10 +27,16 @@ header {
 .game-container {
     height: 100%;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
     align-items: center;
-    gap: 2em;
+    gap: 1em;   
     padding-top: 2em;
+}
+
+@media (max-width: 800px) {
+    .game-container {
+        flex-direction: column;
+    }
 }
 
 .starter_menu {
@@ -38,17 +44,41 @@ header {
 }
 
 #green {
-    background-color: green;
+    background-color: #82f7eb;
 }
 
 #red {
-    background-color: violet;
+    background-color: #e693cb;
 }
 
 .board {
-    width: 80%;
-    height: 40%;
     display: grid;
-    grid-template-columns: repeat(10, 1fr); 
-    grid-template-rows: repeat(10, 1fr);  
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    grid-gap: 1px; 
+    width: 90vw; 
+    max-width: 400px; 
+    margin: 0 auto; 
+}
+
+
+.cell {
+    aspect-ratio: 1;
+    box-shadow: 1px 0 2px 0 black;
+}
+
+.cell:hover {
+    background-color: tomato;
+}
+
+.cell.ship {
+    background-color: #7081e5;
+}
+
+.cell.ship.hit {
+    background-color: darkred;
+}
+
+.cell.miss {
+    background-color: rgb(92, 68, 68);
 }
