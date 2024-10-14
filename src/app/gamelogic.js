@@ -1,13 +1,20 @@
+import { findAdjacentCells } from "./utility.js";
+
 class Ship {
-    constructor(length){
+    constructor(length, cells){
         this.length = length;
         this.hits = 0;
-        this.status = true
+        this.status = true;
+        this.cells = cells
     }
 
     hit(){
         if (this.hits < this.length) ++this.hits
         if (this.hits === this.length) this.status = false
+    }
+
+    surrounding(){
+        return findAdjacentCells(this.cells)
     }
 }
 
@@ -42,7 +49,7 @@ class Gameboard {
     }
 
     place(shipSize, cells) {
-        const ship = new Ship(shipSize);
+        const ship = new Ship(shipSize, cells);
         
         cells.forEach(cell => {
             this.grid[cell] = ship

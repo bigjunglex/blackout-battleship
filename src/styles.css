@@ -64,6 +64,7 @@ header {
 .cell {
     aspect-ratio: 1;
     box-shadow: 1px 0 2px 0 black;
+    text-align: center;
 }
 
 .cell:hover {
@@ -74,10 +75,10 @@ header {
     background-color: #7081e5;
 }
 
-.cell.hit {
-    background-color: darkred;
-}
-
 .cell.miss {
     background-color: rgb(8, 43, 41);
+}
+
+.cell.hit {
+    background-color: darkred;
 }

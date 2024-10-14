@@ -26,19 +26,28 @@ class BoardController {
         }
     }
     
+    clickResolve(cell, i){
+        if (cell instanceof Ship) {
+            const ship = cell
+            cell.hit()
+            this.board[i] = 2
+            if (!ship.status){
+                this.sinkResolve(ship)
+            }
+        }
+        if (cell === 0) this.board[i] = 1
+    }
+    
+    sinkResolve(ship){
+        const cells = ship.surrounding()
+        cells.forEach(cell => this.board[cell] = 1)
+    }
+
     sendUpdates(){
         this.view.updateBoard()
         this.addListeners()
         this.state.updateTurns()
         this.status = this.player.turn
-    }
-
-    clickResolve(cell, i){
-        if (cell instanceof Ship) {
-            cell.hit()
-            this.board[i] = 2
-        }
-        if (cell === 0) this.board[i] = 1
     }
 }
 
