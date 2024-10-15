@@ -28,3 +28,8 @@ red.renderBoard()
 const game = new State([x, y])
 const controller1 = new BoardController(x, green, game)
 const controller2 = new BoardController(y, red, game)
+
+
+/**d
+ * dobavit' game over
+ */

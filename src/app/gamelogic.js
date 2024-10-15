@@ -20,10 +20,10 @@ class Ship {
 
 /**
  * board codes = {
- * 1 : 'empty hit cell'
  * 0 : 'unknown cell'
- * 2 : 'ship not hit'
- * 3 : 'ship hit'
+ * 1 : 'empty hit cell'
+ * 2 : 'ship hit'
+ * 
  * }
  * status, reset, place(number, [...numbers])
  * receiveAttack(number)

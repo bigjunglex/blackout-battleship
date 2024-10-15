@@ -19,10 +19,9 @@ class BoardController {
 
     clickHandler(index){
         const cell = this.board[index]
-        console.log('clicked', index , cell)
-        if (this.player.turn) {
-            this.clickResolve(cell, index)
-            this.sendUpdates()
+        if (this.player.turn && this.isValidClick(index)) {
+            const result = this.clickResolve(cell, index)
+            this.sendUpdates(result)
         }
     }
     
@@ -34,8 +33,19 @@ class BoardController {
             if (!ship.status){
                 this.sinkResolve(ship)
             }
+            return true
         }
-        if (cell === 0) this.board[i] = 1
+        if (cell === 0){
+            this.board[i] = 1
+            return false
+        } 
+    }
+    
+    isValidClick(index){
+        const cell = this.board[index]
+        const [isShip, notHit] = [Ship.prototype.isPrototypeOf(cell), cell === 0]
+        
+        return isShip || notHit
     }
     
     sinkResolve(ship){
@@ -43,11 +53,13 @@ class BoardController {
         cells.forEach(cell => this.board[cell] = 1)
     }
 
-    sendUpdates(){
+    sendUpdates(wasHit){
         this.view.updateBoard()
         this.addListeners()
-        this.state.updateTurns()
-        this.status = this.player.turn
+        if (!wasHit){
+            this.state.updateTurns()
+            this.status = this.player.turn
+        }
     }
 }
 
