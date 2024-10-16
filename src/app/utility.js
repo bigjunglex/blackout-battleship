@@ -31,3 +31,4 @@ function isValidCell(cell, shipCell) {
 
     return grid && row && column;
 }
+

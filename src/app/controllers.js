@@ -49,6 +49,9 @@ class BoardController {
     }
     
     sinkResolve(ship){
+        this.player.board.shipSunked()
+        if (!this.player.board.status) this.view.showResult()
+
         const cells = ship.surrounding()
         cells.forEach(cell => this.board[cell] = 1)
     }

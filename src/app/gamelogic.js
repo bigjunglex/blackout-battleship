@@ -65,6 +65,10 @@ class Gameboard {
             this.grid[target] = 1
         }
     }
+
+    shipSunked(){
+        this.shipSunk++
+    }
 }
 
 /**
@@ -81,7 +85,6 @@ class Player {
 
     swap() {
         this.turn = this.turn ? false : true
-        console.log(`turn changed to ${this.turn} on ${this.type}`)
     }
 }
 

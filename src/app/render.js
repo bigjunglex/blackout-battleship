@@ -2,11 +2,13 @@ import { Ship } from "./gamelogic.js"
 
 class GameRender {
     constructor(board, target){
+        this.resultModal = document.getElementById('reset_modal')
+
         this.board = board
         this.target = target
         this.cells = []
+        
     }
-
 
     checkCell(cell, target) {
         if (cell instanceof Ship) target.classList.add('ship')
@@ -33,6 +35,11 @@ class GameRender {
     getCells() {
         return this.cells
     }
+
+    showResult() {
+        this.resultModal.classList.remove('hide')
+    }
+
 }
 
 
