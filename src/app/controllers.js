@@ -1,13 +1,17 @@
 import { Ship } from "./gamelogic.js";
+import { allignCells } from "./utility.js";
 
 class BoardController {
-    constructor(player, view, state){
+    constructor(player, view, state, set = false){
         this.player = player;
         this.view = view;
         this.state = state
         this.board = this.player.board.grid
-        
+
+        this.savedShip = null
+
         this.addListeners()
+        this.setButtons()
     }
     
     addListeners(){
@@ -17,14 +21,36 @@ class BoardController {
         });
     }
 
+    // clickHandler(index){
+    //     const cell = this.board[index]
+    //     if (this.player.turn && this.isValidClick(index)) {
+    //         const result = this.clickResolve(cell, index)
+    //         this.sendUpdates(result)
+    //     }
+    // }
+    
+
+
     clickHandler(index){
         const cell = this.board[index]
-        if (this.player.turn && this.isValidClick(index)) {
-            const result = this.clickResolve(cell, index)
-            this.sendUpdates(result)
+        if (cell instanceof Ship && !this.savedShip){
+            this.savedShip = cell
+            cell.cells.forEach(i => this.board[i] = 0)
+            this.sendUpdates()
+            console.log(this.savedShip.cells)
+        }else if (this.savedShip) {
+            const newCells = allignCells(index, this.savedShip.length, this.savedShip.dir)
+            if (newCells) {
+                this.savedShip.cells = newCells
+                newCells.forEach(cell => this.board[cell] = this.savedShip)
+                this.savedShip = null
+                this.sendUpdates()
+            }
+            console.log(this.board[index].cells)
         }
+
     }
-    
+
     clickResolve(cell, i){
         if (cell instanceof Ship) {
             const ship = cell
@@ -56,15 +82,26 @@ class BoardController {
         cells.forEach(cell => this.board[cell] = 1)
     }
 
-    sendUpdates(wasHit){
+    sendUpdates(wasHit = false){
         this.view.updateBoard()
         this.addListeners()
         if (!wasHit){
             this.state.updateTurns()
             this.status = this.player.turn
         }
+    } 
+
+    changeDir(){
+        if (this.savedShip) this.savedShip.turn()
+    }
+
+    setButtons(){
+        document.getElementById('turn').addEventListener('click', () => {
+            this.changeDir()
+        })
     }
 }
+
 
 
 

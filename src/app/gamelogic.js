@@ -1,11 +1,13 @@
 import { findAdjacentCells } from "./utility.js";
 
 class Ship {
-    constructor(length, cells){
+    constructor(length, cells, dir = 'vertical'){
         this.length = length;
         this.hits = 0;
         this.status = true;
         this.cells = cells
+
+        this.dir = dir
     }
 
     hit(){
@@ -15,6 +17,16 @@ class Ship {
 
     surrounding(){
         return findAdjacentCells(this.cells)
+    }
+
+    turn(){
+        const save = this.dir
+        const dirs = ['horizontal', 'vertical']
+        const isVert = this.dir ===  dirs[1]
+
+        isVert ? this.dir = dirs[0] : this.dir = dirs[1]
+
+        console.log(`${save} ----> ${this.dir}`)
     }
 }
 
@@ -48,13 +60,14 @@ class Gameboard {
         return board
     }
 
-    place(shipSize, cells) {
-        const ship = new Ship(shipSize, cells);
+    place(shipSize, cells, dir) {
+        const ship = new Ship(shipSize, cells, dir);
         
         cells.forEach(cell => {
             this.grid[cell] = ship
         });
     }
+
 
     receiveAttack(target) {
         const cell = this.grid[target]
@@ -93,13 +106,19 @@ class Player {
  * */ 
 
 class State {
-    constructor(players){
+    constructor(players, isSet = false){
         this.players = players
+        this.isSet = isSet
     }
 
     updateTurns(){
         this.players.forEach(player => player.swap());
     }
+
+    startGame() {
+        this.isSet = true
+    }
+
 }
 
 

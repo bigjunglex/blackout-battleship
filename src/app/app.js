@@ -11,10 +11,10 @@ const red = new GameRender(y.board.grid, document.getElementById('red'))
 
 const ships = [
     [1, [0]],
-    [5, [95, 96, 97, 98, 99]],
+    [5, [95, 96, 97, 98, 99], 'horizontal'],
     [4, [22, 32, 42, 52]],
-    [3, [7, 8, 9]],
-    [2, [48, 49]]
+    [3, [7, 8, 9], 'horizontal'],
+    [2, [48, 49], 'horizontal']
 ]
 
 ships.forEach(ship => {
@@ -30,6 +30,11 @@ const controller1 = new BoardController(x, green, game)
 const controller2 = new BoardController(y, red, game)
 
 
-/**d
- * dobavit' game over
+/*d
+ * dobavit': 
+ * !dorabotat' peretaskivanie.
+ * !smenu storon i blackout click
+ * !nachalo igri
+ * !bota
+ * 
  */

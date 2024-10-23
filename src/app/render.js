@@ -21,6 +21,7 @@ class GameRender {
             const cell = document.createElement('div')
             cell.classList.add('cell')
             this.checkCell(this.board[i], cell)
+            cell.textContent = i
             this.target.appendChild(cell)
             this.cells.push(cell)
         }
