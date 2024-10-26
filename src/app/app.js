@@ -18,8 +18,8 @@ const ships = [
 ]
 
 ships.forEach(ship => {
-    x.board.place(ship[0], ship[1])
-    y.board.place(ship[0], ship[1])
+    x.board.place(ship[0], ship[1], ship[2])
+    y.board.place(ship[0], ship[1], ship[2])
 })
 
 green.renderBoard()

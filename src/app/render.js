@@ -3,7 +3,6 @@ import { Ship } from "./gamelogic.js"
 class GameRender {
     constructor(board, target){
         this.resultModal = document.getElementById('reset_modal')
-
         this.board = board
         this.target = target
         this.cells = []
@@ -21,7 +20,6 @@ class GameRender {
             const cell = document.createElement('div')
             cell.classList.add('cell')
             this.checkCell(this.board[i], cell)
-            cell.textContent = i
             this.target.appendChild(cell)
             this.cells.push(cell)
         }

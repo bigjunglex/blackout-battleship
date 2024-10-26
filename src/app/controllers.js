@@ -7,6 +7,7 @@ class BoardController {
         this.view = view;
         this.state = state
         this.board = this.player.board.grid
+        this.mode = 'placement'
 
         this.savedShip = null
 
@@ -23,7 +24,7 @@ class BoardController {
 
     // clickHandler(index){
     //     const cell = this.board[index]
-    //     if (this.player.turn && this.isValidClick(index)) {
+    //     if (this.player.turn && this.isValidAttack(index)) {
     //         const result = this.clickResolve(cell, index)
     //         this.sendUpdates(result)
     //     }
@@ -35,20 +36,21 @@ class BoardController {
         const cell = this.board[index]
         if (cell instanceof Ship && !this.savedShip){
             this.savedShip = cell
-            cell.cells.forEach(i => this.board[i] = 0)
+            this.player.board.remove(cell.cells)
             this.sendUpdates()
             console.log(this.savedShip.cells)
         }else if (this.savedShip) {
             const newCells = allignCells(index, this.savedShip.length, this.savedShip.dir)
-            if (newCells) {
+            const validPlace = this.isValidPlacement(newCells)
+            const ship = this.savedShip
+            if (newCells && validPlace) {
                 this.savedShip.cells = newCells
-                newCells.forEach(cell => this.board[cell] = this.savedShip)
+                this.player.board.place(ship.length, newCells, ship.dir)
                 this.savedShip = null
                 this.sendUpdates()
             }
             console.log(this.board[index].cells)
         }
-
     }
 
     clickResolve(cell, i){
@@ -61,25 +63,36 @@ class BoardController {
             }
             return true
         }
-        if (cell === 0){
+        if (cell === 0 || cell === 3){
             this.board[i] = 1
             return false
         } 
     }
     
-    isValidClick(index){
+    isValidAttack(index){
         const cell = this.board[index]
-        const [isShip, notHit] = [Ship.prototype.isPrototypeOf(cell), cell === 0]
+        const [isShip, notHit] = [Ship.prototype.isPrototypeOf(cell), (cell === 0 || cell === 3)]
         
         return isShip || notHit
     }
     
+    isValidPlacement(cells){
+        return cells.every(i => {
+            const cell = this.board[i]
+            if (Ship.prototype.isPrototypeOf(cell) || cell === 3){
+                return false
+            }else {
+                return true
+            }
+        })
+    }
+
     sinkResolve(ship){
         this.player.board.shipSunked()
         if (!this.player.board.status) this.view.showResult()
 
         const cells = ship.surrounding()
-        cells.forEach(cell => this.board[cell] = 1)
+        this.player.board.sink(cells)
     }
 
     sendUpdates(wasHit = false){
@@ -99,6 +112,14 @@ class BoardController {
         document.getElementById('turn').addEventListener('click', () => {
             this.changeDir()
         })
+        document.getElementById('place').addEventListener('click', () => {
+            this.changeMode()
+        })
+    }
+
+    changeMode(){
+        if (this.mode = 'placement') this.mode = 'ready'
+        console.log(this.mode)
     }
 }
 

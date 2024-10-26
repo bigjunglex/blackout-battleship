@@ -35,7 +35,7 @@ class Ship {
  * 0 : 'unknown cell'
  * 1 : 'empty hit cell'
  * 2 : 'ship hit'
- * 
+ * 3 : 'blocked for ship placement (near another ship)'
  * }
  * status, reset, place(number, [...numbers])
  * receiveAttack(number)
@@ -45,6 +45,7 @@ class Gameboard {
     constructor(){
         this.grid = this.reset();
         this.shipSunk = 0;
+
     }
     
     get status() {
@@ -66,8 +67,18 @@ class Gameboard {
         cells.forEach(cell => {
             this.grid[cell] = ship
         });
+
+        this.setSurrounding(cells)
     }
 
+    remove(cells) {
+        [cells, findAdjacentCells(cells)].forEach(arr => this.resetCells(arr))
+        this.updateSurroundings()
+    }
+
+    resetCells(arr){
+        arr.forEach(cell => this.grid[cell] = 0)
+    }
 
     receiveAttack(target) {
         const cell = this.grid[target]
@@ -81,6 +92,30 @@ class Gameboard {
 
     shipSunked(){
         this.shipSunk++
+    }
+
+    sink(cells){
+        cells.forEach(cell => this.grid[cell] = 1)
+    }
+
+    setSurrounding(cells){
+        const surround = findAdjacentCells(cells)
+        surround.forEach(cell => this.grid[cell] = 3)
+    }
+
+    getAllShips(){
+        const ships = new Set();
+        for (let i = 0; i < 100; i++) { 
+            const cell = this.grid[i]
+            if (cell instanceof Ship) ships.add(cell)
+        }
+        
+        return Array.from(ships)
+    }
+
+    updateSurroundings(){
+        const shipsRemaining = this.getAllShips()
+        shipsRemaining.forEach(ship => this.setSurrounding(ship.cells))
     }
 }
 
