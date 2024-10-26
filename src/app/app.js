@@ -32,8 +32,6 @@ const controller2 = new BoardController(y, red, game)
 
 /*d
  * dobavit': 
- * !dorabotat' peretaskivanie.
- * !smenu storon i blackout click
  * !nachalo igri
  * !bota
  * 

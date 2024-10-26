@@ -18,39 +18,51 @@ class BoardController {
     addListeners(){
         const cells = this.view.getCells();
         cells.forEach((cell, i) => {
-            cell.addEventListener('click', () => this.clickHandler(i));
+            cell.addEventListener('click', () => this.clickManager(i));
         });
     }
 
-    // clickHandler(index){
-    //     const cell = this.board[index]
-    //     if (this.player.turn && this.isValidAttack(index)) {
-    //         const result = this.clickResolve(cell, index)
-    //         this.sendUpdates(result)
-    //     }
-    // }
+    clickManager(i){
+        return this.isReady() ? this.clickHandlerGame(i) : this.clickHandlerSet(i)
+    }
+
+    clickHandlerGame(index){
+        const cell = this.board[index]
+        console.log(cell)
+        if (this.player.turn && this.isValidAttack(index)) {
+            const result = this.clickResolve(cell, index)
+            this.sendUpdates(result)
+        }
+    }
     
 
 
-    clickHandler(index){
+    clickHandlerSet(index){
         const cell = this.board[index]
         if (cell instanceof Ship && !this.savedShip){
-            this.savedShip = cell
-            this.player.board.remove(cell.cells)
-            this.sendUpdates()
-            console.log(this.savedShip.cells)
+            this.grabShip(cell)
         }else if (this.savedShip) {
-            const newCells = allignCells(index, this.savedShip.length, this.savedShip.dir)
-            const validPlace = this.isValidPlacement(newCells)
-            const ship = this.savedShip
-            if (newCells && validPlace) {
-                this.savedShip.cells = newCells
-                this.player.board.place(ship.length, newCells, ship.dir)
-                this.savedShip = null
-                this.sendUpdates()
-            }
-            console.log(this.board[index].cells)
+            this.dropShip(index)
         }
+    }
+
+    dropShip(index){
+        const newCells = allignCells(index, this.savedShip.length, this.savedShip.dir)
+        const validPlace = this.isValidPlacement(newCells)
+        const ship = this.savedShip
+        
+        if (newCells && validPlace) {
+            this.savedShip.cells = newCells
+            this.player.board.place(ship.length, newCells, ship.dir)
+            this.savedShip = null
+            this.sendUpdates()
+        }
+    }
+
+    grabShip(ship){
+        this.savedShip = ship
+        this.player.board.remove(ship.cells)
+        this.sendUpdates()
     }
 
     clickResolve(cell, i){
@@ -77,14 +89,16 @@ class BoardController {
     }
     
     isValidPlacement(cells){
-        return cells.every(i => {
-            const cell = this.board[i]
-            if (Ship.prototype.isPrototypeOf(cell) || cell === 3){
-                return false
-            }else {
-                return true
-            }
-        })
+        if (Array.isArray(cells)){
+            return cells.every(i => {
+                const cell = this.board[i]
+                if (Ship.prototype.isPrototypeOf(cell) || cell === 3){
+                    return false
+                }else {
+                    return true
+                }
+            })
+        }
     }
 
     sinkResolve(ship){
@@ -96,7 +110,12 @@ class BoardController {
     }
 
     sendUpdates(wasHit = false){
-        this.view.updateBoard()
+        const mode = this.mode === 'ready'
+        if (mode){
+            this.view.updateBoard(false)
+        }else {
+            this.view.updateBoard(true)
+        }
         this.addListeners()
         if (!wasHit){
             this.state.updateTurns()
@@ -117,9 +136,15 @@ class BoardController {
         })
     }
 
+    isReady(){
+        return this.mode === 'ready'
+    }
+
     changeMode(){
-        if (this.mode = 'placement') this.mode = 'ready'
-        console.log(this.mode)
+        if (!this.isReady()){
+            this.mode = 'ready'
+            this.sendUpdates(false)
+        } 
     }
 }
 

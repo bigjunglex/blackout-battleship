@@ -9,26 +9,27 @@ class GameRender {
         
     }
 
-    checkCell(cell, target) {
-        if (cell instanceof Ship) target.classList.add('ship')
+    checkCell(cell, target, isVisible = true) {
+        if (cell instanceof Ship && isVisible) target.classList.add('ship')
         if (cell === 1) target.classList.add('miss')
         if (cell === 2) target.classList.add('hit')
+
     }
     
-    renderBoard() {
+    renderBoard(isVisible = true) {
         for (const i in this.board) {
             const cell = document.createElement('div')
             cell.classList.add('cell')
-            this.checkCell(this.board[i], cell)
+            this.checkCell(this.board[i], cell, isVisible)
             this.target.appendChild(cell)
             this.cells.push(cell)
         }
     }
 
-    updateBoard(){
+    updateBoard(isVisible = true){
         this.target.innerHTML = '';
         this.cells = [];
-        this.renderBoard();
+        this.renderBoard(isVisible);
     }
 
     getCells() {
